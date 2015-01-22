@@ -22,13 +22,15 @@ public class Card extends GamePiece {
 
 	public Card(int value, CardSuit suit) {
 		super();
-		this.setLocation(new Vector3(0, 0, 0));
 		this.value = value;
 		this.suit = suit;
 		front = true;
 		frontTexture = GamePiece.CARDS_SHEET.findRegion("card" + suit.getSuit()
 				+ getDisplayValue());
 		backTexture = GamePiece.CARDS_SHEET.findRegion("cardBack_red1");
+		this.location = new Vector3(CardGame.WIDTH / 2
+				- frontTexture.originalWidth / 2, CardGame.HEIGHT / 2
+				- frontTexture.originalHeight / 2, 0);
 	}
 
 	/**
@@ -100,8 +102,7 @@ public class Card extends GamePiece {
 	public void drawPiece() {
 		SpriteBatch batch = new SpriteBatch();
 		batch.begin();
-		batch.draw(front ? frontTexture : backTexture, CardGame.WIDTH / 2,
-				CardGame.HEIGHT / 2);
+		batch.draw(front ? frontTexture : backTexture, location.x, location.y);
 		batch.end();
 	}
 
