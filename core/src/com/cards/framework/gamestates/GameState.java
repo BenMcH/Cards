@@ -4,6 +4,7 @@ import com.cards.framework.managers.GameStateManager;
 
 public abstract class GameState {
 	private final GameStateManager gameStateManager;
+	private int nextZ = 0;
 	public GameState(GameStateManager gsm) {
 		this.gameStateManager = gsm;
 		init();
@@ -21,5 +22,9 @@ public abstract class GameState {
 
 	public GameStateManager getGameStateManager(){
 		return gameStateManager;
+	}
+	
+	public int getNextZ(){
+		return nextZ++;
 	}
 }

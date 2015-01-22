@@ -7,10 +7,11 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.math.Vector3;
 import com.cards.framework.entities.Card;
 import com.cards.framework.entities.CardSuit;
+import com.cards.framework.entities.GamePiece;
 import com.cards.framework.managers.GameStateManager;
 
 public class PlayState extends GameState {
-	ArrayList<Card> cards;
+	ArrayList<GamePiece> cards;
 
 	public PlayState(GameStateManager gsm) {
 		super(gsm);
@@ -18,15 +19,17 @@ public class PlayState extends GameState {
 
 	@Override
 	public void init() {
-		cards = new ArrayList<Card>();
+		cards = new ArrayList<GamePiece>();
 		cards.add(new Card(1, CardSuit.SPADES));
 	}
 
 	@Override
 	public void handleInput() {
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE))
-			for (Card card : cards) {
-				card.flipCard();
+			for (GamePiece card : cards) {
+				if(card instanceof Card){
+					((Card)card).flipCard();
+				}
 			}
 	}
 
@@ -37,8 +40,8 @@ public class PlayState extends GameState {
 
 	@Override
 	public void draw() {
-		for (Card card : cards)
-			card.drawPiece();
+		for (GamePiece piece : cards)
+			piece.drawPiece();
 	}
 
 	@Override
