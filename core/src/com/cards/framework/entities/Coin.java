@@ -42,9 +42,6 @@ public class Coin extends GamePiece implements Rollable {
 	public void drawPiece() {
 	}
 
-	@Override
-	public void setSize(int width, int height) {
-	}
 
 	@Override
 	public Vector3 getSize() {

@@ -16,7 +16,6 @@ public class Card extends GamePiece {
 	private int value;
 	private CardSuit suit;
 	private boolean front;
-	private Vector3 location;
 	private AtlasRegion frontTexture;
 	private AtlasRegion backTexture;
 
@@ -28,9 +27,10 @@ public class Card extends GamePiece {
 		frontTexture = GamePiece.CARDS_SHEET.findRegion("card" + suit.getSuit()
 				+ getDisplayValue());
 		backTexture = GamePiece.CARDS_SHEET.findRegion("cardBack_red1");
-		this.location = new Vector3(CardGame.WIDTH / 2
+		setLocation(new Vector3(CardGame.WIDTH / 2
 				- frontTexture.originalWidth / 2, CardGame.HEIGHT / 2
-				- frontTexture.originalHeight / 2, 0);
+				- frontTexture.originalHeight / 2, 0));
+		setSize(frontTexture.originalWidth, frontTexture.originalHeight);
 	}
 
 	/**
@@ -102,26 +102,14 @@ public class Card extends GamePiece {
 	public void drawPiece() {
 		SpriteBatch batch = new SpriteBatch();
 		batch.begin();
-		batch.draw(front ? frontTexture : backTexture, location.x, location.y);
+		batch.draw(front ? frontTexture : backTexture, getLocation().x, getLocation().y);
 		batch.end();
-	}
-
-	@Override
-	public void setSize(int width, int height) {
 	}
 
 	@Override
 	public Vector3 getSize() {
 
 		return null;
-	}
-
-	public Vector3 getLocation() {
-		return location;
-	}
-
-	public void setLocation(Vector3 location) {
-		this.location = location;
 	}
 
 }

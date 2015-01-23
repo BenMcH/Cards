@@ -59,10 +59,6 @@ public class Dice extends GamePiece implements Rollable {
 	}
 
 	@Override
-	public void setSize(int width, int height) {
-	}
-
-	@Override
 	public Vector3 getSize() {
 
 		return null;

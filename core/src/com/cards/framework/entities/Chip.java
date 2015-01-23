@@ -42,13 +42,11 @@ public class Chip extends GamePiece {
 	}
 
 	@Override
-	public void setSize(int width, int height) {
-	}
-
-	@Override
 	public Vector3 getSize() {
 
 		return null;
 	}
+
+
 
 }

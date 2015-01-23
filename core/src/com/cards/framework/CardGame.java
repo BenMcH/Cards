@@ -25,7 +25,7 @@ public class CardGame extends ApplicationAdapter {
 		camera.update();
 		
 		gsm = new GameStateManager();
-		gsm.setState(GameStateManager.PLAY);
+		//gsm.setState(GameStateManager.PLAY);
 	}
 
 	@Override
