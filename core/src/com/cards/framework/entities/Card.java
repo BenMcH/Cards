@@ -25,8 +25,10 @@ public class Card extends GamePiece {
 		frontTexture = GamePiece.CARDS_SHEET.findRegion("card" + suit.getSuit()
 				+ getDisplayValue());
 		backTexture = GamePiece.CARDS_SHEET.findRegion("cardBack_red1");
+
 		setLocation(new Vector3(CardGame.WIDTH / 2 - frontTexture.originalWidth
 				/ 2, CardGame.HEIGHT / 2 - frontTexture.originalHeight / 2, 0));
+
 		setSize(frontTexture.originalWidth, frontTexture.originalHeight);
 	}
 
@@ -94,7 +96,7 @@ public class Card extends GamePiece {
 
 	@Override
 	public void drawPiece() {
-		SpriteBatch batch = new SpriteBatch();
+		SpriteBatch batch = new SpriteBatch(1);
 		batch.begin();
 		batch.draw(front ? frontTexture : backTexture, getLocation().x,
 				getLocation().y);

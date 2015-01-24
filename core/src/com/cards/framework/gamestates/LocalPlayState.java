@@ -1,6 +1,5 @@
 package com.cards.framework.gamestates;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.cards.framework.entities.Card;
@@ -29,7 +28,7 @@ public class LocalPlayState extends GameState {
 	@Override
 	public void handleInput() {
 		if (isJustTouched()) {
-			Vector2 touchLoc = new Vector2(Gdx.input.getX(), Gdx.input.getY());
+			Vector2 touchLoc = getMousePosition();
 			GamePiece piece = getTopEntityAtPosition(touchLoc);
 			if (piece == null)
 				return;

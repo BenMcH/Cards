@@ -5,6 +5,7 @@ import java.util.Collections;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.math.Vector2;
+import com.cards.framework.CardGame;
 import com.cards.framework.entities.GamePiece;
 import com.cards.framework.managers.GameStateManager;
 
@@ -82,15 +83,12 @@ public abstract class GameState {
 	 * @return
 	 */
 	public GamePiece getTopEntityAtPosition(Vector2 vector) {
-		GamePiece top = null;
-		for (GamePiece piece : entities) {
-			if (piece.containsPoint(vector))
-				if (top == null)
-					top = piece;
-				else if (piece.getLocation().z > top.getLocation().z)
-					top = piece;
+		Collections.sort(entities);
+		for (int i = entities.size() - 1; i >= 0; i--) {
+			if (entities.get(i).containsPoint(vector))
+				return entities.get(i);
 		}
-		return top;
+		return null;
 	}
 
 	/**
@@ -122,6 +120,16 @@ public abstract class GameState {
 			return false;
 		touched = Gdx.input.isTouched();
 		return touched;
+	}
+
+	/**
+	 * Returns the mouse position in a vector2 object. This coordinate system is
+	 * converted to the same coordinate plane as the drawn entities
+	 * 
+	 * @return
+	 */
+	public Vector2 getMousePosition() {
+		return new Vector2(Gdx.input.getX(), CardGame.HEIGHT - Gdx.input.getY());
 	}
 
 }
