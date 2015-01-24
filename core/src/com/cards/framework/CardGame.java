@@ -34,15 +34,14 @@ public class CardGame extends ApplicationAdapter {
 		WINDOW_HEIGHT = Gdx.graphics.getHeight();
 		
 		boardSprite = new Sprite(new Texture(Gdx.files.internal("board.jpg")));
-		boardSprite.setPosition(0, 0);
+		//boardSprite.setPosition(0, 0);
 		boardSprite.setSize(BOARD_WIDTH, BOARD_HEIGHT);
 
-		camera = new OrthographicCamera(1280, 720);;
-		camera.position.set(BOARD_WIDTH / 2f, BOARD_HEIGHT / 2f, 0);
+		camera = new OrthographicCamera();;
+		camera.setToOrtho(false, WINDOW_WIDTH, WINDOW_HEIGHT);
 		camera.update();
 
 		gsm = new GameStateManager();
-		// gsm.setState(GameStateManager.PLAY);
 		batch = new SpriteBatch();
 	}
 
@@ -51,7 +50,6 @@ public class CardGame extends ApplicationAdapter {
 		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		
 		batch.begin();
@@ -59,6 +57,8 @@ public class CardGame extends ApplicationAdapter {
 		gsm.update(Gdx.graphics.getDeltaTime());
 		gsm.draw();
 		batch.end();
+		
+		camera.update();
 	}
 	
 	@Override

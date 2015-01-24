@@ -102,9 +102,6 @@ public abstract class GamePiece implements Comparable<GamePiece> {
 	 */
 	public boolean containsPoint(Vector2 point) {
 		Rectangle r = new Rectangle(location.x, location.y, size.x, size.y);
-		Gdx.app.log("Contains", r.contains(point) + "");
-		Gdx.app.log("X", r.x + "-" + (r.x + r.width) + " " + point.x);
-		Gdx.app.log("Y", r.y + "-" + (r.y + r.height) + " " + point.y);
 		return r.contains(point);
 	}
 

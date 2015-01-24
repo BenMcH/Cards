@@ -33,10 +33,10 @@ public class LocalPlayState extends GameState {
 	@Override
 	public void handleInput() {
 		if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-            CardGame.camera.zoom += 0.015;
+            CardGame.camera.zoom += 0.01;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.ALT_LEFT)) {
-            CardGame.camera.zoom -= 0.015;
+            CardGame.camera.zoom -= 0.01;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
             CardGame.camera.translate(-30, 0, 0);
@@ -51,32 +51,30 @@ public class LocalPlayState extends GameState {
             CardGame.camera.translate(0, 30, 0);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
-            CardGame.camera.rotate(-1, 0, 0, 1);
+            CardGame.camera.rotate(-0.7f, 0, 0, 1);
         }
         if (Gdx.input.isKeyPressed(Input.Keys.E)) {
-            CardGame.camera.rotate(1, 0, 0, 1);
+            CardGame.camera.rotate(0.7f, 0, 0, 1);
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-        	addEntity(new Card(10, CardSuit.CLUBS));
-        }
-        
-        float effectiveViewportWidth = CardGame.camera.viewportWidth * CardGame.camera.zoom;
-        float effectiveViewportHeight = CardGame.camera.viewportHeight * CardGame.camera.zoom;
-
-        CardGame.camera.zoom = MathUtils.clamp(CardGame.camera.zoom, 0.1f, CardGame.BOARD_HEIGHT/CardGame.camera.viewportWidth);
-        CardGame.camera.position.x = MathUtils.clamp(CardGame.camera.position.x, effectiveViewportWidth / 2f, (CardGame.BOARD_WIDTH - 1) - effectiveViewportWidth / 2f);
-        CardGame.camera.position.y = MathUtils.clamp(CardGame.camera.position.y, effectiveViewportHeight / 2f, (CardGame.BOARD_HEIGHT - 1) - effectiveViewportHeight / 2f);
 		
 		if (isJustTouched()) {
 			Vector2 touchLoc = getMousePosition();
 			GamePiece piece = getTopEntityAtPosition(touchLoc);
-			if (piece == null)
-				return;
 			if (piece instanceof Card) {
 				// ((Card) piece).flipCard();
 				piece.move(new Vector3(0, 0, GameStateManager.gameState
 						.getNextZ()));
 			}
+			
+			System.out.println("X: " + Gdx.input.getX());
+			System.out.println("Y: " + Gdx.input.getY());
+			
+			if (piece == null)
+				return;
+		}
+		
+		if(isJustTouched()) {
+			
 		}
 	}
 
