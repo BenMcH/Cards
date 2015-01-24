@@ -37,22 +37,20 @@ public class CardGame extends ApplicationAdapter {
 		//boardSprite.setPosition(0, 0);
 		boardSprite.setSize(BOARD_WIDTH, BOARD_HEIGHT);
 
-		camera = new OrthographicCamera(1280, 720);;
-		//camera.position.set(BOARD_WIDTH / 2f, BOARD_HEIGHT / 2f, 0);
+		camera = new OrthographicCamera();;
 		camera.setToOrtho(false, WINDOW_WIDTH, WINDOW_HEIGHT);
 		camera.update();
 
 		gsm = new GameStateManager();
-		// gsm.setState(GameStateManager.PLAY);
 		batch = new SpriteBatch();
 	}
 
 	@Override
 	public void render() {
+		camera.update();
 		
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		camera.update();
 		batch.setProjectionMatrix(camera.combined);
 		
 		batch.begin();
@@ -60,6 +58,7 @@ public class CardGame extends ApplicationAdapter {
 		gsm.update(Gdx.graphics.getDeltaTime());
 		gsm.draw();
 		batch.end();
+		
 	}
 	
 	@Override

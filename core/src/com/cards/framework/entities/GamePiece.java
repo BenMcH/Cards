@@ -3,10 +3,7 @@ package com.cards.framework.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.cards.framework.CardGame;
 import com.cards.framework.managers.GameStateManager;
 
 /**
@@ -106,12 +103,6 @@ public abstract class GamePiece implements Comparable<GamePiece> {
 	 * @return
 	 */
 	public boolean containsPoint(Vector3 point) {
-
-		Vector3 loc = new Vector3(location.x, location.y, 0);
-		Vector3 loc2 = new Vector3(location.x + size.x, location.y + size.y, 0);
-		CardGame.camera.project(point);
-		Gdx.app.log("X", location.x + "-" + (location.x + size.x) + " " + point.x);
-		Gdx.app.log("Y", location.y + "-" + (location.y + size.y) + " " + point.y);
 		if (point.x >= this.location.x && point.x <= location.x + size.x)
 			if (point.y >= this.location.y && point.y <= location.y + size.y)
 				return true;

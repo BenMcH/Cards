@@ -5,7 +5,6 @@ import java.util.Collections;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.cards.framework.CardGame;
 import com.cards.framework.entities.GamePiece;
@@ -130,8 +129,9 @@ public abstract class GameState {
 	 * 
 	 * @return
 	 */
-	public Vector2 getMousePosition() {
-		return new Vector2(Gdx.input.getX(), Gdx.input.getY());
+	public Vector3 getMousePosition() {
+		return CardGame.camera.unproject(new Vector3(Gdx.input.getX(),
+				Gdx.input.getY(), 0));
 	}
 
 }
