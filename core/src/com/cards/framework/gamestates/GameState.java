@@ -130,7 +130,7 @@ public abstract class GameState {
 	 * @return
 	 */
 	public Vector2 getMousePosition() {
-		return new Vector2(Gdx.input.getX(), CardGame.HEIGHT - Gdx.input.getY());
+		return new Vector2(Gdx.input.getX(), CardGame.WINDOW_HEIGHT - Gdx.input.getY());
 	}
 
 }
