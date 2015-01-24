@@ -6,6 +6,7 @@ import java.util.Collections;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.cards.framework.CardGame;
 import com.cards.framework.entities.GamePiece;
 import com.cards.framework.managers.GameStateManager;
@@ -83,7 +84,7 @@ public abstract class GameState {
 	 * @param vector
 	 * @return
 	 */
-	public GamePiece getTopEntityAtPosition(Vector2 vector) {
+	public GamePiece getTopEntityAtPosition(Vector3 vector) {
 		Collections.sort(entities);
 		for (int i = entities.size() - 1; i >= 0; i--) {
 			if (entities.get(i).containsPoint(vector))
@@ -130,7 +131,7 @@ public abstract class GameState {
 	 * @return
 	 */
 	public Vector2 getMousePosition() {
-		return new Vector2(Gdx.input.getX(), CardGame.WINDOW_HEIGHT - Gdx.input.getY());
+		return new Vector2(Gdx.input.getX(), Gdx.input.getY());
 	}
 
 }

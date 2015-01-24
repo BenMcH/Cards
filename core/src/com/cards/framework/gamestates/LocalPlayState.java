@@ -68,7 +68,7 @@ public class LocalPlayState extends GameState {
         CardGame.camera.position.y = MathUtils.clamp(CardGame.camera.position.y, effectiveViewportHeight / 2f, (CardGame.BOARD_HEIGHT - 1) - effectiveViewportHeight / 2f);
 		
 		if (isJustTouched()) {
-			Vector2 touchLoc = getMousePosition();
+			Vector3 touchLoc = new Vector3(getMousePosition(), 0);
 			GamePiece piece = getTopEntityAtPosition(touchLoc);
 			if (piece == null)
 				return;

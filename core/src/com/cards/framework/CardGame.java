@@ -34,11 +34,12 @@ public class CardGame extends ApplicationAdapter {
 		WINDOW_HEIGHT = Gdx.graphics.getHeight();
 		
 		boardSprite = new Sprite(new Texture(Gdx.files.internal("board.jpg")));
-		boardSprite.setPosition(0, 0);
+		//boardSprite.setPosition(0, 0);
 		boardSprite.setSize(BOARD_WIDTH, BOARD_HEIGHT);
 
 		camera = new OrthographicCamera(1280, 720);;
-		camera.position.set(BOARD_WIDTH / 2f, BOARD_HEIGHT / 2f, 0);
+		//camera.position.set(BOARD_WIDTH / 2f, BOARD_HEIGHT / 2f, 0);
+		camera.setToOrtho(false, WINDOW_WIDTH, WINDOW_HEIGHT);
 		camera.update();
 
 		gsm = new GameStateManager();

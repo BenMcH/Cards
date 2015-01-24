@@ -6,10 +6,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.cards.framework.CardGame;
 import com.cards.framework.managers.GameStateManager;
 
 /**
- * GamePiece is a parent class meant to be used to quickly generate different pieces.
+ * GamePiece is a parent class meant to be used to quickly generate different
+ * pieces.
  *
  */
 public abstract class GamePiece implements Comparable<GamePiece> {
@@ -22,7 +24,8 @@ public abstract class GamePiece implements Comparable<GamePiece> {
 
 	/**
 	 * Used to draw the game piece from within the class
-	 * @param batch 
+	 * 
+	 * @param batch
 	 */
 	public abstract void drawPiece(SpriteBatch batch);
 
@@ -87,6 +90,7 @@ public abstract class GamePiece implements Comparable<GamePiece> {
 
 	/**
 	 * Moves the object by the amounts specified in the three variables
+	 * 
 	 * @param dx
 	 * @param dy
 	 * @param dz
@@ -96,16 +100,22 @@ public abstract class GamePiece implements Comparable<GamePiece> {
 	}
 
 	/**
-	 * Returns whether or not the game piece contains a specific point on screen 
+	 * Returns whether or not the game piece contains a specific point on screen
+	 * 
 	 * @param point
 	 * @return
 	 */
-	public boolean containsPoint(Vector2 point) {
-		Rectangle r = new Rectangle(location.x, location.y, size.x, size.y);
-		Gdx.app.log("Contains", r.contains(point) + "");
-		Gdx.app.log("X", r.x + "-" + (r.x + r.width) + " " + point.x);
-		Gdx.app.log("Y", r.y + "-" + (r.y + r.height) + " " + point.y);
-		return r.contains(point);
+	public boolean containsPoint(Vector3 point) {
+
+		Vector3 loc = new Vector3(location.x, location.y, 0);
+		Vector3 loc2 = new Vector3(location.x + size.x, location.y + size.y, 0);
+		CardGame.camera.project(point);
+		Gdx.app.log("X", location.x + "-" + (location.x + size.x) + " " + point.x);
+		Gdx.app.log("Y", location.y + "-" + (location.y + size.y) + " " + point.y);
+		if (point.x >= this.location.x && point.x <= location.x + size.x)
+			if (point.y >= this.location.y && point.y <= location.y + size.y)
+				return true;
+		return false;
 	}
 
 	@Override
