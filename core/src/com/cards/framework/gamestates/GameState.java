@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.cards.framework.CardGame;
 import com.cards.framework.entities.GamePiece;
@@ -51,7 +52,7 @@ public abstract class GameState {
 	/**
 	 * Draws the Game State
 	 */
-	public abstract void draw();
+	public abstract void draw(SpriteBatch batch);
 
 	/**
 	 * Disposes of all of the used objects

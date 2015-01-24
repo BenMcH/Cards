@@ -95,12 +95,9 @@ public class Card extends GamePiece {
 	}
 
 	@Override
-	public void drawPiece() {
-		SpriteBatch batch = new SpriteBatch(1);
-		batch.begin();
+	public void drawPiece(SpriteBatch batch) {
 		batch.draw(front ? frontTexture : backTexture, getLocation().x,
 				getLocation().y);
-		batch.end();
 	}
 
 	@Override

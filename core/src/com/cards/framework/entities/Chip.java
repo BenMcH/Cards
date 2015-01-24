@@ -1,5 +1,6 @@
 package com.cards.framework.entities;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
 /**
@@ -40,7 +41,7 @@ public class Chip extends GamePiece {
 	 * This method is what is used to draw the piece from the Game State
 	 */
 	@Override
-	public void drawPiece() {
+	public void drawPiece(SpriteBatch batch) {
 	}
 
 	/**

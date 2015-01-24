@@ -1,5 +1,6 @@
 package com.cards.framework.gamestates;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.cards.framework.entities.Card;
@@ -46,9 +47,9 @@ public class LocalPlayState extends GameState {
 	}
 
 	@Override
-	public void draw() {
+	public void draw(SpriteBatch batch) {
 		for (GamePiece piece : getEntities())
-			piece.drawPiece();
+			piece.drawPiece(batch);
 	}
 
 	@Override

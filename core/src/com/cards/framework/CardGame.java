@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.cards.framework.managers.GameStateManager;
 
 /**
@@ -19,7 +20,8 @@ public class CardGame extends ApplicationAdapter {
 	public static OrthographicCamera camera;
 
 	public static GameStateManager gsm;
-
+	public static SpriteBatch batch;
+	
 	@Override
 	public void create() {
 		WIDTH = Gdx.graphics.getWidth();
@@ -31,13 +33,19 @@ public class CardGame extends ApplicationAdapter {
 
 		gsm = new GameStateManager();
 		// gsm.setState(GameStateManager.PLAY);
+		batch = new SpriteBatch();
 	}
 
 	@Override
 	public void render() {
+		
 		Gdx.gl.glClearColor(0, 1, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+		batch.setProjectionMatrix(camera.combined);
+		batch.begin();
 		gsm.update(Gdx.graphics.getDeltaTime());
+		camera.update();
 		gsm.draw();
+		batch.end();
 	}
 }

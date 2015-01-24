@@ -1,5 +1,6 @@
 package com.cards.framework.managers;
 
+import com.cards.framework.CardGame;
 import com.cards.framework.gamestates.GameState;
 import com.cards.framework.gamestates.LocalPlayState;
 
@@ -53,7 +54,7 @@ public class GameStateManager {
 	 * Renders the screen
 	 */
 	public void draw() {
-		gameState.draw();
+		gameState.draw(CardGame.batch);
 	}
 
 }

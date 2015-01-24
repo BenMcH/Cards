@@ -1,6 +1,7 @@
 package com.cards.framework.entities;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -21,8 +22,9 @@ public abstract class GamePiece implements Comparable<GamePiece> {
 
 	/**
 	 * Used to draw the game piece from within the class
+	 * @param batch 
 	 */
-	public abstract void drawPiece();
+	public abstract void drawPiece(SpriteBatch batch);
 
 	/**
 	 * Sets the size of the component

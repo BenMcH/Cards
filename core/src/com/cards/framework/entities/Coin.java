@@ -2,6 +2,7 @@ package com.cards.framework.entities;
 
 import java.util.Random;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
 
 /**
@@ -41,14 +42,15 @@ public class Coin extends GamePiece implements Rollable {
 		return side;
 	}
 
-	@Override
-	public void drawPiece() {
-	}
 	
 	@Override
 	public Vector3 getSize() {
 
 		return null;
+	}
+
+	@Override
+	public void drawPiece(SpriteBatch batch) {
 	}
 
 }
