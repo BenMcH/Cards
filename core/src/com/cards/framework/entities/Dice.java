@@ -8,7 +8,6 @@ import com.badlogic.gdx.math.Vector3;
  * Adds the dice game piece for games like Yahtzee or Monopoly. TODO: Allow
  * custom dice.
  * 
- * @author William
  *
  */
 
@@ -39,16 +38,13 @@ public class Dice extends GamePiece implements Rollable {
 		this.size = size;
 	}
 
-	/**
-	 * Documentation for these are in the implemented interface "Rollable"
-	 */
 	@Override
 	public int getNumberOfPossibleOutcomes() {
 		return size;
 	}
 
 	@Override
-	public int Roll() {
+	public int roll() {
 		Random side = new Random();
 		dice = side.nextInt(size) + 1;
 		return dice;

@@ -8,8 +8,6 @@ import com.cards.framework.CardGame;
 /**
  * A class for holding any standard card. Will have a child class to hold custom
  * cards.
- * 
- * @author Ben
  *
  */
 public class Card extends GamePiece {
@@ -27,9 +25,8 @@ public class Card extends GamePiece {
 		frontTexture = GamePiece.CARDS_SHEET.findRegion("card" + suit.getSuit()
 				+ getDisplayValue());
 		backTexture = GamePiece.CARDS_SHEET.findRegion("cardBack_red1");
-		setLocation(new Vector3(CardGame.WIDTH / 2
-				- frontTexture.originalWidth / 2, CardGame.HEIGHT / 2
-				- frontTexture.originalHeight / 2, 0));
+		setLocation(new Vector3(CardGame.WIDTH / 2 - frontTexture.originalWidth
+				/ 2, CardGame.HEIGHT / 2 - frontTexture.originalHeight / 2, 0));
 		setSize(frontTexture.originalWidth, frontTexture.originalHeight);
 	}
 
@@ -95,14 +92,12 @@ public class Card extends GamePiece {
 		return getDisplayValue() + " of " + getSuit();
 	}
 
-	/**
-	 * Documentation in the GamePiece Class
-	 */
 	@Override
 	public void drawPiece() {
 		SpriteBatch batch = new SpriteBatch();
 		batch.begin();
-		batch.draw(front ? frontTexture : backTexture, getLocation().x, getLocation().y);
+		batch.draw(front ? frontTexture : backTexture, getLocation().x,
+				getLocation().y);
 		batch.end();
 	}
 

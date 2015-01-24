@@ -6,7 +6,6 @@ import com.badlogic.gdx.math.Vector3;
  * This class is for the chip game piece that will be used for games like poker
  * or checkers.
  * 
- * @author William
  *
  */
 
@@ -37,16 +36,20 @@ public class Chip extends GamePiece {
 		return value;
 	}
 
+	/**
+	 * This method is what is used to draw the piece from the Game State
+	 */
 	@Override
 	public void drawPiece() {
 	}
 
+	/**
+	 * returns the size of the Game Piece
+	 */
 	@Override
 	public Vector3 getSize() {
 
 		return null;
 	}
-
-
 
 }

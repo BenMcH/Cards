@@ -8,9 +8,14 @@ import com.cards.framework.entities.CardSuit;
 import com.cards.framework.entities.GamePiece;
 import com.cards.framework.managers.GameStateManager;
 
-public class PlayState extends GameState {
+/**
+ * This is the local game. It will allow users to interact with GamePiece
+ * objects and play with them.
+ *
+ */
+public class LocalPlayState extends GameState {
 
-	public PlayState(GameStateManager gsm) {
+	public LocalPlayState(GameStateManager gsm) {
 		super(gsm);
 	}
 
@@ -28,9 +33,10 @@ public class PlayState extends GameState {
 			GamePiece piece = getTopEntityAtPosition(touchLoc);
 			if (piece == null)
 				return;
-			if (piece instanceof Card){
-				//((Card) piece).flipCard();
-				piece.move(new Vector3(0,0,GameStateManager.gameState.getNextZ()));
+			if (piece instanceof Card) {
+				// ((Card) piece).flipCard();
+				piece.move(new Vector3(0, 0, GameStateManager.gameState
+						.getNextZ()));
 			}
 		}
 	}

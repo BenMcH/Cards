@@ -2,7 +2,6 @@ package com.cards.framework.entities;
 
 /**
  * Handles the suits for a standard deck
- * @author Ben
  *
  */
 public enum CardSuit {

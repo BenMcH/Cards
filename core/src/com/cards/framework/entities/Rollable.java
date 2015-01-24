@@ -1,5 +1,9 @@
 package com.cards.framework.entities;
 
+/**
+ * The Rollable interface implements two methods to allow for quick and easy implementation of things that can be rolled or flipped.
+ *
+ */
 public interface Rollable {
 	
 	/**
@@ -12,5 +16,5 @@ public interface Rollable {
 	 *  Rolls an object that is based on which side it lands on.
 	 * @return
 	 */
-	public int Roll();
+	public int roll();
 }

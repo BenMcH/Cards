@@ -5,6 +5,10 @@ import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
 import com.cards.framework.CardGame;
 
 public class DesktopLauncher {
+	/**
+	 * Creates the TableTop Game
+	 * @param arg
+	 */
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration cfg = new LwjglApplicationConfiguration();
 		cfg.title = "Cards";

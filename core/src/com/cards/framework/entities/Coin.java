@@ -4,28 +4,32 @@ import java.util.Random;
 
 import com.badlogic.gdx.math.Vector3;
 
+/**
+ * Coin creates a coin that can be flipped and shown.
+ *
+ */
 public class Coin extends GamePiece implements Rollable {
-	private int coin;
+	private int side;
 	public static final int HEADS = 0, TAILS = 1;
 
+	/**
+	 * Creates a coin with the default of heads being up
+	 */
 	public Coin() {
 		super();
-		coin = 0;
+		side = 0;
 	}
 
-	/**
-	 * Documentation for these methods in Rollable
-	 */
 	@Override
 	public int getNumberOfPossibleOutcomes() {
 		return 2;
 	}
 
 	@Override
-	public int Roll() {
-		Random side = new Random();
-		coin = side.nextInt(2);
-		return coin;
+	public int roll() {
+		Random ran = new Random();
+		side = ran.nextInt(2);
+		return side;
 	}
 
 	/**
@@ -34,18 +38,16 @@ public class Coin extends GamePiece implements Rollable {
 	 * @return
 	 */
 	public int getCoin() {
-		return coin;
+		return side;
 	}
-
 
 	@Override
 	public void drawPiece() {
 	}
-
-
+	
 	@Override
 	public Vector3 getSize() {
-		
+
 		return null;
 	}
 
