@@ -2,7 +2,7 @@ package com.cards.framework.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import com.cards.framework.CardGame;
+import com.cards.framework.BoardGame;
 
 public class DesktopLauncher {
 	/**
@@ -21,6 +21,6 @@ public class DesktopLauncher {
 		cfg.resizable = false;
 		cfg.vSyncEnabled = true;
 		
-		new LwjglApplication(new CardGame(), cfg);
+		new LwjglApplication(new BoardGame(), cfg);
 	}
 }

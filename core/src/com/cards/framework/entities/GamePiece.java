@@ -5,13 +5,14 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector3;
 import com.cards.framework.gamestates.GameState;
+import com.cards.framework.interfaces.Drawable;
 
 /**
  * GamePiece is a parent class meant to be used to quickly generate different
  * pieces.
  *
  */
-public abstract class GamePiece implements Comparable<GamePiece> {
+public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 
 	// public static ColorPath[] avalibleColors;
 	public static final TextureAtlas CARDS_SHEET = new TextureAtlas(
@@ -25,6 +26,11 @@ public abstract class GamePiece implements Comparable<GamePiece> {
 	 * @param batch
 	 */
 	public abstract void drawPiece(SpriteBatch batch);
+	
+	@Override
+	public final void draw(SpriteBatch batch){
+		drawPiece(batch);
+	}
 
 	/**
 	 * Sets the size of the component

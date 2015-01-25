@@ -3,7 +3,7 @@ package com.cards.framework.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector3;
-import com.cards.framework.CardGame;
+import com.cards.framework.BoardGame;
 
 /**
  * A class for holding any standard card. Will have a child class to hold custom
@@ -26,7 +26,7 @@ public class Card extends GamePiece {
 				+ getDisplayValue());
 		backTexture = GamePiece.CARDS_SHEET.findRegion("cardBack_red1");
 
-		setLocation(CardGame.camera.unproject(new Vector3(CardGame.camera.viewportWidth / 2, CardGame.camera.viewportHeight / 2, 0)));
+		setLocation(BoardGame.camera.unproject(new Vector3(BoardGame.camera.viewportWidth / 2, BoardGame.camera.viewportHeight / 2, 0)));
 
 		setSize(frontTexture.originalWidth, frontTexture.originalHeight);
 	}

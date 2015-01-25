@@ -6,8 +6,9 @@ import java.util.Collections;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-import com.cards.framework.CardGame;
+import com.cards.framework.BoardGame;
 import com.cards.framework.entities.GamePiece;
+import com.cards.framework.interfaces.Drawable;
 import com.cards.framework.managers.GameStateManager;
 
 /**
@@ -15,15 +16,14 @@ import com.cards.framework.managers.GameStateManager;
  * within the game without problems of memory management or the like.
  *
  */
-public abstract class GameState {
+public abstract class GameState implements Drawable {
 	private final GameStateManager gameStateManager;
 	private static int nextZ = 0;
 	private ArrayList<GamePiece> entities;
 	private boolean touched = false;
-	private boolean held = true, holding;
-	private float timeHeld = 0;
-	private final float timeToHold = .05f;
-
+	private boolean holding;
+	private GamePiece heldPiece;
+	private boolean sTouched;
 	/**
 	 * Creates a GameState object that saves its GameStateManager
 	 * 
@@ -79,8 +79,8 @@ public abstract class GameState {
 	public static int getNextZ() {
 		return nextZ++;
 	}
-	
-	public static void resetNextZ(){
+
+	public static void resetNextZ() {
 		nextZ = 0;
 	}
 
@@ -129,15 +129,30 @@ public abstract class GameState {
 		touched = Gdx.input.isTouched();
 		return touched;
 	}
-
+	
+	/**
+	 * This is the private isJustTouched method specifically for the isHeld Method
+	 * @return
+	 */
+	private boolean isJustTouchedH(){
+		if (Gdx.input.isTouched() && sTouched)
+			return false;
+		sTouched = Gdx.input.isTouched();
+		return sTouched;
+		
+	}
+	
 	public boolean isHeld(float deltaTime) {
-		held = holding;
-		holding = Gdx.input.isTouched();
-		if (holding && held) {
-			this.timeHeld += deltaTime;
-			return timeHeld >= timeToHold;
+		if(isJustTouchedH()){
+			heldPiece = (getTopEntityAtPosition(getMousePosition()));
 		}
-		timeHeld = 0;
+		if(heldPiece == null)
+			return false;
+		holding = Gdx.input.isTouched();
+		if (holding) {
+			return true;
+		}
+		heldPiece = null;
 		return false;
 	}
 
@@ -148,8 +163,12 @@ public abstract class GameState {
 	 * @return
 	 */
 	public Vector3 getMousePosition() {
-		return CardGame.camera.unproject(new Vector3(Gdx.input.getX(),
+		return BoardGame.camera.unproject(new Vector3(Gdx.input.getX(),
 				Gdx.input.getY(), 0));
+	}
+	
+	public Vector3 getRealMousePosition(){
+		return new Vector3(Gdx.input.getX(), BoardGame.WINDOW_HEIGHT - Gdx.input.getY(), 0);
 	}
 
 }

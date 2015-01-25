@@ -2,14 +2,19 @@ package com.cards.framework.gamestates;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
-import com.cards.framework.CardGame;
+import com.cards.framework.BoardGame;
 import com.cards.framework.entities.Card;
 import com.cards.framework.entities.CardSuit;
-import com.cards.framework.entities.Deck;
 import com.cards.framework.entities.GamePiece;
+import com.cards.framework.entities.Inventory;
 import com.cards.framework.managers.GameStateManager;
+import com.cards.framework.processors.GameInputProcessor;
 
 /**
  * This is the local game. It will allow users to interact with GamePiece
@@ -19,8 +24,9 @@ import com.cards.framework.managers.GameStateManager;
 public class LocalPlayState extends GameState {
 	private Vector3 lastTouch;
 	private GamePiece piece;
-
+	private GameInputProcessor processor;
 	public static int LIFT_HEIGHT = 3;
+	private Inventory inventory;
 
 	public LocalPlayState(GameStateManager gsm) {
 		super(gsm);
@@ -28,58 +34,42 @@ public class LocalPlayState extends GameState {
 
 	@Override
 	public void init() {
+		Gdx.input.setInputProcessor((processor = new GameInputProcessor(this)));
 		addEntity(new Card(1, CardSuit.SPADES));
 		addEntity(new Card(2, CardSuit.HEARTS));
 		getEntities().get(1).move(new Vector3(50, 50, GameState.getNextZ()));
+		inventory = new Inventory(this);
+		processor.setInventoryObj(inventory);
 	}
 
 	@Override
 	public void handleInput(float deltaTime) {
-		if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-			CardGame.camera.zoom += 0.01;
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.ALT_LEFT)) {
-			CardGame.camera.zoom -= 0.01;
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-			CardGame.camera.translate(-30, 0, 0);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-			CardGame.camera.translate(30, 0, 0);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-			CardGame.camera.translate(0, -30, 0);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-			CardGame.camera.translate(0, 30, 0);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
-			CardGame.camera.rotate(-0.7f, 0, 0, 1);
-		}
-		if (Gdx.input.isKeyPressed(Input.Keys.E)) {
-			CardGame.camera.rotate(0.7f, 0, 0, 1);
-		}
-		if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-			addEntity(Deck.getRandomCard());
-		}
+		BoardGame.camera.translate(processor.getTranslateX(),
+				processor.getTranslateY(), 0);
+		BoardGame.camera.zoom += processor.getZoom();
+		BoardGame.camera.zoom = MathUtils.clamp(BoardGame.camera.zoom,
+				BoardGame.MIN_ZOOM, BoardGame.MAX_ZOOM);
 
+		BoardGame.camera.rotate(processor.getRotation(), 0, 0, 1);
+		BoardGame.camera.rotate(processor.getRotation(), 0, 0, 1);
+		if (processor.getInventory())
+			inventory.handleInput();
 		if (isHeld(deltaTime)) {
 			Vector3 touchLoc = (getMousePosition());
 			if (piece == null)
 				piece = getTopEntityAtPosition(touchLoc);
-			
-			if (piece == null)
-				return;
 
-			piece.move(new Vector3(touchLoc.x - lastTouch.x, touchLoc.y
-					- lastTouch.y, GameState.getNextZ()));
-			
-			if (piece instanceof Card) {
-				if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-					((Card) piece).flipCard();
+			if (piece != null) {
+				piece.move(new Vector3(touchLoc.x - lastTouch.x, touchLoc.y
+						- lastTouch.y, GameState.getNextZ()));
+
+				if (piece instanceof Card) {
+					if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+						((Card) piece).flipCard();
+					}
 				}
 			}
-			
+
 		} else
 			piece = null;
 
@@ -95,7 +85,24 @@ public class LocalPlayState extends GameState {
 	@Override
 	public void draw(SpriteBatch batch) {
 		for (GamePiece piece : getEntities())
-			piece.drawPiece(batch);
+			piece.draw(batch);
+		batch.end();
+
+		if (processor.getInventory()) {
+			ShapeRenderer shapeRenderer = new ShapeRenderer();
+			shapeRenderer.setAutoShapeType(true);
+			shapeRenderer.begin(ShapeType.Filled);
+			shapeRenderer.setColor(Color.BLACK);
+			shapeRenderer.rect(inventory.getLocation().x,
+					inventory.getLocation().y, inventory.getSize().x,
+					inventory.getSize().y);
+			shapeRenderer.end();
+			SpriteBatch batch1 = new SpriteBatch(1);
+			batch1.begin();
+			inventory.draw(batch1);
+			batch1.end();
+		}
+
 	}
 
 	@Override
