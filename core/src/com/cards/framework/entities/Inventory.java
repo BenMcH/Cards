@@ -40,7 +40,7 @@ public class Inventory extends GamePiece {
 	 * Pls?
 	 */
 	public void handleInput() {
-		Vector3 input = state.getRealMousePosition();
+		Vector3 input = state.getMousePositionOnScreen();
 		//input.y = BoardGame.WINDOW_HEIGHT - input.y;
 		if (state.isJustTouched())
 			if (input.x >= getLocation().x
@@ -49,7 +49,9 @@ public class Inventory extends GamePiece {
 						&& input.y <= getLocation().y + getSize().y) {
 					// CardGame.camera.unproject(input);
 					int loc = (int) input.y / 20;
-					state.addEntity(entities.get(scroll + (shownNum - loc - 1)));
+					GamePiece piece = entities.get(scroll + (shownNum - loc - 1));
+					piece.centerPiece();
+					state.addEntity(piece);
 				}
 
 			}

@@ -55,7 +55,7 @@ public class LocalPlayState extends GameState {
 		if (processor.getInventory())
 			inventory.handleInput();
 		if (isHeld(deltaTime)) {
-			Vector3 touchLoc = (getMousePosition());
+			Vector3 touchLoc = (getMousePositionWithinCamera());
 			if (piece == null)
 				piece = getTopEntityAtPosition(touchLoc);
 
@@ -73,7 +73,7 @@ public class LocalPlayState extends GameState {
 		} else
 			piece = null;
 
-		lastTouch = getMousePosition();
+		lastTouch = getMousePositionWithinCamera();
 
 	}
 

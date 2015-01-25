@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector3;
+import com.cards.framework.BoardGame;
 import com.cards.framework.gamestates.GameState;
 import com.cards.framework.interfaces.Drawable;
 
@@ -26,9 +27,9 @@ public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 	 * @param batch
 	 */
 	public abstract void drawPiece(SpriteBatch batch);
-	
+
 	@Override
-	public final void draw(SpriteBatch batch){
+	public final void draw(SpriteBatch batch) {
 		drawPiece(batch);
 	}
 
@@ -120,5 +121,14 @@ public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 		if (o.getLocation().z == getLocation().z)
 			return 0;
 		return getLocation().z < o.getLocation().z ? -1 : 1;
+	}
+
+	/**
+	 * This method centers the piece within the current View Port
+	 */
+	public void centerPiece() {
+		setLocation(BoardGame.camera.unproject(new Vector3(
+				(BoardGame.camera.viewportWidth) / 2,
+				(BoardGame.camera.viewportHeight) / 2, 0)));
 	}
 }

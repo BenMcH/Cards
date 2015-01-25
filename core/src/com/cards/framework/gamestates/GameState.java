@@ -144,7 +144,7 @@ public abstract class GameState implements Drawable {
 	
 	public boolean isHeld(float deltaTime) {
 		if(isJustTouchedH()){
-			heldPiece = (getTopEntityAtPosition(getMousePosition()));
+			heldPiece = (getTopEntityAtPosition(getMousePositionWithinCamera()));
 		}
 		if(heldPiece == null)
 			return false;
@@ -162,12 +162,12 @@ public abstract class GameState implements Drawable {
 	 * 
 	 * @return
 	 */
-	public Vector3 getMousePosition() {
+	public Vector3 getMousePositionWithinCamera() {
 		return BoardGame.camera.unproject(new Vector3(Gdx.input.getX(),
 				Gdx.input.getY(), 0));
 	}
 	
-	public Vector3 getRealMousePosition(){
+	public Vector3 getMousePositionOnScreen(){
 		return new Vector3(Gdx.input.getX(), BoardGame.WINDOW_HEIGHT - Gdx.input.getY(), 0);
 	}
 

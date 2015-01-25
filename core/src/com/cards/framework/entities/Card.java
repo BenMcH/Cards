@@ -26,7 +26,7 @@ public class Card extends GamePiece {
 				+ getDisplayValue());
 		backTexture = GamePiece.CARDS_SHEET.findRegion("cardBack_red1");
 
-		setLocation(BoardGame.camera.unproject(new Vector3(BoardGame.camera.viewportWidth / 2, BoardGame.camera.viewportHeight / 2, 0)));
+		setLocation(BoardGame.camera.unproject(new Vector3((BoardGame.camera.viewportWidth) / 2, (BoardGame.camera.viewportHeight) / 2, 0)));
 
 		setSize(frontTexture.originalWidth, frontTexture.originalHeight);
 	}
