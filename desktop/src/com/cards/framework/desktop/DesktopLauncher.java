@@ -17,6 +17,7 @@ public class DesktopLauncher {
 		cfg.x = -1;
 		cfg.y = -1;
 		
+		cfg.foregroundFPS = 60;
 		cfg.resizable = false;
 		cfg.vSyncEnabled = true;
 		

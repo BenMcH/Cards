@@ -67,13 +67,19 @@ public class LocalPlayState extends GameState {
 			Vector3 touchLoc = (getMousePosition());
 			if (piece == null)
 				piece = getTopEntityAtPosition(touchLoc);
-
+			
 			if (piece == null)
 				return;
 
 			piece.move(new Vector3(touchLoc.x - lastTouch.x, touchLoc.y
 					- lastTouch.y, GameState.getNextZ()));
-
+			
+			if (piece instanceof Card) {
+				if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+					((Card) piece).flipCard();
+				}
+			}
+			
 		} else
 			piece = null;
 

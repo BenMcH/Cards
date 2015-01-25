@@ -22,7 +22,7 @@ public abstract class GameState {
 	private boolean touched = false;
 	private boolean held = true, holding;
 	private float timeHeld = 0;
-	private final float timeToHold = .1f;
+	private final float timeToHold = .05f;
 
 	/**
 	 * Creates a GameState object that saves its GameStateManager
