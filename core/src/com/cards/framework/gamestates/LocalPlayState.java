@@ -44,20 +44,26 @@ public class LocalPlayState extends GameState {
 
 	@Override
 	public void handleInput(float deltaTime) {
-		BoardGame.camera.translate(processor.getTranslateX(), processor.getTranslateY(), 0);
-		BoardGame.camera.zoom += processor.getZoom();
-		BoardGame.camera.zoom = MathUtils.clamp(BoardGame.camera.zoom, BoardGame.MIN_ZOOM, BoardGame.MAX_ZOOM);
-
+		BoardGame.camera.translate(processor.getTranslateX(),
+				processor.getTranslateY(), 0);
 		BoardGame.camera.rotate(processor.getRotation(), 0, 0, 1);
 		BoardGame.camera.rotate(processor.getRotation(), 0, 0, 1);
-		
-		float effectiveViewportWidth = BoardGame.camera.viewportWidth * BoardGame.camera.zoom;
-        float effectiveViewportHeight = BoardGame.camera.viewportHeight * BoardGame.camera.zoom;
 
-        BoardGame.camera.zoom = MathUtils.clamp(BoardGame.camera.zoom, 0.01f, BoardGame.BOARD_HEIGHT/BoardGame.camera.viewportWidth);
-        BoardGame.camera.position.x = MathUtils.clamp(BoardGame.camera.position.x, effectiveViewportWidth / 2f, BoardGame.BOARD_WIDTH - effectiveViewportWidth / 2f);
-        BoardGame.camera.position.y = MathUtils.clamp(BoardGame.camera.position.y, effectiveViewportHeight / 2f, BoardGame.BOARD_HEIGHT - effectiveViewportHeight / 2f);
-		
+		float effectiveViewportWidth = BoardGame.camera.viewportWidth
+				* BoardGame.camera.zoom;
+		float effectiveViewportHeight = BoardGame.camera.viewportHeight
+				* BoardGame.camera.zoom;
+
+		BoardGame.camera.zoom = MathUtils.clamp(BoardGame.camera.zoom
+				+ processor.getZoom(), 0.5f, BoardGame.BOARD_HEIGHT
+				/ BoardGame.camera.viewportWidth);
+		BoardGame.camera.position.x = MathUtils.clamp(
+				BoardGame.camera.position.x, effectiveViewportWidth / 2f,
+				BoardGame.BOARD_WIDTH - effectiveViewportWidth / 2f);
+		BoardGame.camera.position.y = MathUtils.clamp(
+				BoardGame.camera.position.y, effectiveViewportHeight / 2f,
+				BoardGame.BOARD_HEIGHT - effectiveViewportHeight / 2f);
+		System.out.println(BoardGame.camera.zoom);
 		if (processor.getInventory())
 			inventory.handleInput();
 		if (isHeld(deltaTime)) {

@@ -22,7 +22,7 @@ public class BoardGame extends ApplicationAdapter {
 	public static final int BOARD_HEIGHT = 2500;
 	
 	public static final float MIN_ZOOM = .5f;
-	public static final float MAX_ZOOM = 2f;
+	public static final float MAX_ZOOM = 1.96f;
 	public static final float ROTATE_SPEED = .7f;
 	public static OrthographicCamera camera;
 
