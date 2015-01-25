@@ -52,6 +52,7 @@ public class GameInputProcessor implements InputProcessor {
 				state.addEntity(Deck.getRandomCard());
 			}
 		return true;
+		
 	}
 
 	@Override
