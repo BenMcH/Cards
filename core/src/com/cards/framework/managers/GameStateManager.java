@@ -30,7 +30,7 @@ public class GameStateManager {
 	 * @param state
 	 */
 	public void setState(int state) {
-
+		GameState.resetNextZ();
 		if (gameState != null)
 			gameState.dispose();
 		if (state == MENU) {

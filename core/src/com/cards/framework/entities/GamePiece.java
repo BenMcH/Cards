@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector3;
-import com.cards.framework.managers.GameStateManager;
+import com.cards.framework.gamestates.GameState;
 
 /**
  * GamePiece is a parent class meant to be used to quickly generate different
@@ -62,7 +62,7 @@ public abstract class GamePiece implements Comparable<GamePiece> {
 	 * @param y
 	 */
 	public void setLocation(float x, float y) {
-		location.set(x, y, GameStateManager.gameState.getNextZ());
+		location.set(x, y, GameState.getNextZ());
 	}
 
 	/**

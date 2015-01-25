@@ -25,11 +25,11 @@ public class LocalPlayState extends GameState {
 	public void init() {
 		addEntity(new Card(1, CardSuit.SPADES));
 		addEntity(new Card(2, CardSuit.HEARTS));
-		getEntities().get(1).move(new Vector3(50, 50, 1));
+		getEntities().get(1).move(new Vector3(50, 50, GameState.getNextZ()));
 	}
 
 	@Override
-	public void handleInput() {
+	public void handleInput(float deltaTime) {
 		if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
             CardGame.camera.zoom += 0.01;
         }
@@ -60,8 +60,7 @@ public class LocalPlayState extends GameState {
 			GamePiece piece = getTopEntityAtPosition(touchLoc);
 			if (piece instanceof Card) {
 				// ((Card) piece).flipCard();
-				piece.move(new Vector3(0, 0, GameStateManager.gameState
-						.getNextZ()));
+				piece.move(new Vector3(0, 0, GameState.getNextZ()));
 			}
 			
 			System.out.println("X: " + Gdx.input.getX());
@@ -71,14 +70,12 @@ public class LocalPlayState extends GameState {
 				return;
 		}
 		
-		if(isJustTouched()) {
-			
-		}
+		isHeld(deltaTime);
 	}
 
 	@Override
 	public void update(float deltaTime) {
-		handleInput();
+		handleInput(deltaTime);
 	}
 
 	@Override

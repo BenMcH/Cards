@@ -17,9 +17,12 @@ import com.cards.framework.managers.GameStateManager;
  */
 public abstract class GameState {
 	private final GameStateManager gameStateManager;
-	private int nextZ = 0;
+	private static int nextZ = 0;
 	private ArrayList<GamePiece> entities;
 	private boolean touched = false;
+	private boolean held = true, holding;
+	private float timeHeld = 0;
+	private final float timeToHold = .25f;
 
 	/**
 	 * Creates a GameState object that saves its GameStateManager
@@ -40,7 +43,7 @@ public abstract class GameState {
 	/**
 	 * Handles the user input and acts accordingly
 	 */
-	public abstract void handleInput();
+	public abstract void handleInput(float deltaTime);
 
 	/**
 	 * Updates the game logic based on deltaTime
@@ -73,8 +76,12 @@ public abstract class GameState {
 	 * 
 	 * @return
 	 */
-	public int getNextZ() {
+	public static int getNextZ() {
 		return nextZ++;
+	}
+	
+	public static void resetNextZ(){
+		nextZ = 0;
 	}
 
 	/**
@@ -121,6 +128,22 @@ public abstract class GameState {
 			return false;
 		touched = Gdx.input.isTouched();
 		return touched;
+	}
+
+	public boolean isHeld(float deltaTime) {
+		held = holding;
+		holding = Gdx.input.isTouched();
+		if (holding && held) {
+			this.timeHeld += deltaTime;
+			if (timeHeld >= timeToHold)
+				Gdx.app.log("Hold", "Held");
+			else
+				Gdx.app.log("Hold", "Preparing to hold");
+			return timeHeld >= timeToHold;
+		}
+		Gdx.app.log("Hold", "Not held");
+		timeHeld = 0;
+		return false;
 	}
 
 	/**
