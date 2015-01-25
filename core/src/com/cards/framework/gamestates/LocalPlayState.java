@@ -18,8 +18,8 @@ import com.cards.framework.managers.GameStateManager;
  */
 public class LocalPlayState extends GameState {
 	private Vector3 lastTouch;
-	private boolean isHeld;
-	
+	private GamePiece piece;
+
 	public static int LIFT_HEIGHT = 3;
 
 	public LocalPlayState(GameStateManager gsm) {
@@ -36,48 +36,49 @@ public class LocalPlayState extends GameState {
 	@Override
 	public void handleInput(float deltaTime) {
 		if (Gdx.input.isKeyPressed(Input.Keys.CONTROL_LEFT)) {
-            CardGame.camera.zoom += 0.01;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.ALT_LEFT)) {
-            CardGame.camera.zoom -= 0.01;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            CardGame.camera.translate(-30, 0, 0);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            CardGame.camera.translate(30, 0, 0);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            CardGame.camera.translate(0, -30, 0);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            CardGame.camera.translate(0, 30, 0);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
-            CardGame.camera.rotate(-0.7f, 0, 0, 1);
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.E)) {
-            CardGame.camera.rotate(0.7f, 0, 0, 1);
-        }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-        	addEntity(Deck.getRandomCard());
-        }
-		
+			CardGame.camera.zoom += 0.01;
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.ALT_LEFT)) {
+			CardGame.camera.zoom -= 0.01;
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+			CardGame.camera.translate(-30, 0, 0);
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+			CardGame.camera.translate(30, 0, 0);
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+			CardGame.camera.translate(0, -30, 0);
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+			CardGame.camera.translate(0, 30, 0);
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.Q)) {
+			CardGame.camera.rotate(-0.7f, 0, 0, 1);
+		}
+		if (Gdx.input.isKeyPressed(Input.Keys.E)) {
+			CardGame.camera.rotate(0.7f, 0, 0, 1);
+		}
+		if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
+			addEntity(Deck.getRandomCard());
+		}
+
 		if (isHeld(deltaTime)) {
 			Vector3 touchLoc = (getMousePosition());
-			GamePiece piece = getTopEntityAtPosition(touchLoc);
-			
-			if (piece == null) return;
-			
-			piece.move(new Vector3(touchLoc.x - lastTouch.x, touchLoc.y - lastTouch.y, GameState.getNextZ()));
-			
-						
-		}
-		
-		
-		
+			if (piece == null)
+				piece = getTopEntityAtPosition(touchLoc);
+
+			if (piece == null)
+				return;
+
+			piece.move(new Vector3(touchLoc.x - lastTouch.x, touchLoc.y
+					- lastTouch.y, GameState.getNextZ()));
+
+		} else
+			piece = null;
+
 		lastTouch = getMousePosition();
-		
+
 	}
 
 	@Override

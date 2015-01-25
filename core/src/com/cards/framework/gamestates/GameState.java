@@ -22,7 +22,7 @@ public abstract class GameState {
 	private boolean touched = false;
 	private boolean held = true, holding;
 	private float timeHeld = 0;
-	private final float timeToHold = .25f;
+	private final float timeToHold = .1f;
 
 	/**
 	 * Creates a GameState object that saves its GameStateManager
@@ -135,13 +135,8 @@ public abstract class GameState {
 		holding = Gdx.input.isTouched();
 		if (holding && held) {
 			this.timeHeld += deltaTime;
-			if (timeHeld >= timeToHold)
-				Gdx.app.log("Hold", "Held");
-			else
-				Gdx.app.log("Hold", "Preparing to hold");
 			return timeHeld >= timeToHold;
 		}
-		Gdx.app.log("Hold", "Not held");
 		timeHeld = 0;
 		return false;
 	}
