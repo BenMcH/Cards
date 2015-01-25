@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.cards.framework.CardGame;
 import com.cards.framework.entities.Card;
 import com.cards.framework.entities.CardSuit;
+import com.cards.framework.entities.Deck;
 import com.cards.framework.entities.GamePiece;
 import com.cards.framework.managers.GameStateManager;
 
@@ -16,6 +17,10 @@ import com.cards.framework.managers.GameStateManager;
  *
  */
 public class LocalPlayState extends GameState {
+	private Vector3 lastTouch;
+	private boolean isHeld;
+	
+	public static int LIFT_HEIGHT = 3;
 
 	public LocalPlayState(GameStateManager gsm) {
 		super(gsm);
@@ -54,23 +59,25 @@ public class LocalPlayState extends GameState {
         if (Gdx.input.isKeyPressed(Input.Keys.E)) {
             CardGame.camera.rotate(0.7f, 0, 0, 1);
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
+        	addEntity(Deck.getRandomCard());
+        }
 		
-		if (isJustTouched()) {
+		if (isHeld(deltaTime)) {
 			Vector3 touchLoc = (getMousePosition());
 			GamePiece piece = getTopEntityAtPosition(touchLoc);
-			if (piece instanceof Card) {
-				// ((Card) piece).flipCard();
-				piece.move(new Vector3(0, 0, GameState.getNextZ()));
-			}
 			
-			System.out.println("X: " + Gdx.input.getX());
-			System.out.println("Y: " + Gdx.input.getY());
+			if (piece == null) return;
 			
-			if (piece == null)
-				return;
+			piece.move(new Vector3(touchLoc.x - lastTouch.x, touchLoc.y - lastTouch.y, GameState.getNextZ()));
+			
+						
 		}
 		
-		isHeld(deltaTime);
+		
+		
+		lastTouch = getMousePosition();
+		
 	}
 
 	@Override

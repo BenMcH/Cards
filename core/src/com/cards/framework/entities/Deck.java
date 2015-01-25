@@ -72,5 +72,11 @@ public class Deck {
 		}
 		return deck;
 	}
+	
+	// DEBUG
+	public static Card getRandomCard() {
+		ArrayList<Card> deck = Deck.getStandardDeck();
+		return deck.get(new Random().nextInt(deck.size()));
+	}
 
 }
