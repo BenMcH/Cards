@@ -131,4 +131,5 @@ public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 				(BoardGame.camera.viewportWidth) / 2,
 				(BoardGame.camera.viewportHeight) / 2, 0)));
 	}
+	
 }

@@ -63,7 +63,6 @@ public class LocalPlayState extends GameState {
 		BoardGame.camera.position.y = MathUtils.clamp(
 				BoardGame.camera.position.y, effectiveViewportHeight / 2f,
 				BoardGame.BOARD_HEIGHT - effectiveViewportHeight / 2f);
-		System.out.println(BoardGame.camera.zoom);
 		if (processor.getInventory())
 			inventory.handleInput();
 		if (isHeld(deltaTime)) {
