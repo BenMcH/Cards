@@ -3,7 +3,6 @@ package com.cards.framework.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.cards.framework.BoardGame;
 
 /**
@@ -27,7 +26,7 @@ public class Card extends GamePiece {
 		backTexture = GamePiece.CARDS_SHEET.findRegion("cardBack_red1");
 
 		setLocation(BoardGame.camera.unproject(new Vector3((BoardGame.camera.viewportWidth) / 2, (BoardGame.camera.viewportHeight) / 2, 0)));
-		
+
 		setSize(frontTexture.originalWidth, frontTexture.originalHeight);
 	}
 
@@ -95,7 +94,8 @@ public class Card extends GamePiece {
 
 	@Override
 	public void drawPiece(SpriteBatch batch) {
-		batch.draw(front ? frontTexture : backTexture, getLocation().x, getLocation().y);
+		batch.draw(front ? frontTexture : backTexture, getLocation().x, getLocation().y, getSize().x / 2, getSize().y / 2, getSize().x, getSize().y, 1, 1, getRotation());
+		//batch.draw(front ? frontTexture : backTexture, getLocation().x, getLocation().y);
 	}
 
 	@Override
@@ -103,5 +103,5 @@ public class Card extends GamePiece {
 
 		return super.getSize();
 	}
-
+	
 }

@@ -5,7 +5,10 @@ import java.util.Collections;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.World;
 import com.cards.framework.BoardGame;
 import com.cards.framework.entities.GamePiece;
 import com.cards.framework.interfaces.Drawable;
@@ -24,14 +27,19 @@ public abstract class GameState implements Drawable {
 	private boolean holding;
 	private GamePiece heldPiece;
 	private boolean sTouched;
+	private World world;
+	private Box2DDebugRenderer debugRenderer;
+	
 	/**
 	 * Creates a GameState object that saves its GameStateManager
 	 * 
 	 * @param gsm
 	 */
-	public GameState(GameStateManager gsm) {
+	public GameState(GameStateManager gsm, Vector2 gravity, boolean sleep) {
 		this.gameStateManager = gsm;
 		entities = new ArrayList<GamePiece>();
+		world = new World(gravity, sleep);
+		debugRenderer = new Box2DDebugRenderer();
 		init();
 	}
 
@@ -169,6 +177,14 @@ public abstract class GameState implements Drawable {
 	
 	public Vector3 getMousePositionOnScreen(){
 		return new Vector3(Gdx.input.getX(), BoardGame.WINDOW_HEIGHT - Gdx.input.getY(), 0);
+	}
+
+	public World getWorld() {
+		return world;
+	}
+
+	public Box2DDebugRenderer getDebugRenderer() {
+		return debugRenderer;
 	}
 
 }

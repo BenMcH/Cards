@@ -3,6 +3,8 @@ package com.cards.framework.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Polygon;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.cards.framework.BoardGame;
 import com.cards.framework.gamestates.GameState;
@@ -19,7 +21,7 @@ public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 	public static final TextureAtlas CARDS_SHEET = new TextureAtlas(Gdx.files.internal("cards.pack"));
 	private Vector3 location = new Vector3(0, 0, 0);
 	private Vector3 size = new Vector3();
-	private float rotation = (float) Math.PI / 2;
+	private int rotation = 0;
 
 	/**
 	 * Used to draw the game piece from within the class
@@ -86,7 +88,7 @@ public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 	 * 
 	 * @return
 	 */
-	public float getRotation() {
+	public int getRotation() {
 		return rotation;
 	}
 	
@@ -95,7 +97,7 @@ public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 	 * 
 	 * @param rotation
 	 */
-	public void setRotation(float rotation) {
+	public void setRotation(int rotation) {
 		this.rotation = rotation;
 	}
 	
@@ -104,8 +106,9 @@ public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 	 * 
 	 * @param amount
 	 */
-	public void rotate(double amount) {
+	public void rotate(int amount) {
 		this.rotation += amount;
+		this.rotation %= 360;
 	}
 
 	/**
@@ -137,6 +140,9 @@ public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 	 * @return
 	 */
 	public boolean containsPoint(Vector3 point) {
+		Rectangle r = new Rectangle();
+		Polygon shape = new Polygon();
+		
 		if (point.x >= this.location.x && point.x <= location.x + size.x)
 			if (point.y >= this.location.y && point.y <= location.y + size.y)
 				return true;

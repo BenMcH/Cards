@@ -15,6 +15,7 @@ public class GameInputProcessor implements InputProcessor {
 	private boolean inventory;
 	private Inventory inventoryObj;
 	private GameState state;
+	private int scroll;
 	
 	public GameInputProcessor(GameState state) {
 		this.state = state;
@@ -121,11 +122,12 @@ public class GameInputProcessor implements InputProcessor {
 
 	@Override
 	public boolean scrolled(int amount) {
+		scroll = amount;
 		if (inventory)
 			if (inventoryObj != null) {
 				inventoryObj.scroll(amount);
 			}
-
+			
 		return true;
 	}
 
@@ -155,6 +157,12 @@ public class GameInputProcessor implements InputProcessor {
 
 	public void setInventoryObj(Inventory inventoryObj) {
 		this.inventoryObj = inventoryObj;
+	}
+
+	public int getScroll() {
+		int scroll = this.scroll;
+		this.scroll = 0;
+		return scroll * 15;
 	}
 
 }

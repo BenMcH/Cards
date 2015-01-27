@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.cards.framework.BoardGame;
 import com.cards.framework.entities.Card;
@@ -29,7 +30,7 @@ public class LocalPlayState extends GameState {
 	private Inventory inventory;
 
 	public LocalPlayState(GameStateManager gsm) {
-		super(gsm);
+		super(gsm, new Vector2(0,0), true);
 	}
 
 	@Override
@@ -76,6 +77,7 @@ public class LocalPlayState extends GameState {
 						((Card) piece).flipCard();
 					}
 				}
+				piece.rotate(processor.getScroll());
 				
 			}
 
