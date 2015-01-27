@@ -38,51 +38,48 @@ public class LocalPlayState extends GameState {
 		addEntity(new Card(1, CardSuit.SPADES));
 		addEntity(new Card(2, CardSuit.HEARTS));
 		getEntities().get(1).move(new Vector3(50, 50, GameState.getNextZ()));
+		
 		inventory = new Inventory(this);
 		processor.setInventoryObj(inventory);
 	}
 
 	@Override
 	public void handleInput(float deltaTime) {
-		BoardGame.camera.translate(processor.getTranslateX(),
-				processor.getTranslateY(), 0);
+		BoardGame.camera.translate(processor.getTranslateX(), processor.getTranslateY(), 0);
 		BoardGame.camera.rotate(processor.getRotation(), 0, 0, 1);
 		BoardGame.camera.rotate(processor.getRotation(), 0, 0, 1);
 
-		float effectiveViewportWidth = BoardGame.camera.viewportWidth
-				* BoardGame.camera.zoom;
-		float effectiveViewportHeight = BoardGame.camera.viewportHeight
-				* BoardGame.camera.zoom;
+		float effectiveViewportWidth = BoardGame.camera.viewportWidth * BoardGame.camera.zoom;
+		float effectiveViewportHeight = BoardGame.camera.viewportHeight * BoardGame.camera.zoom;
 
-		BoardGame.camera.zoom = MathUtils.clamp(BoardGame.camera.zoom
-				+ processor.getZoom(), 0.5f, BoardGame.BOARD_HEIGHT
-				/ BoardGame.camera.viewportWidth);
-		BoardGame.camera.position.x = MathUtils.clamp(
-				BoardGame.camera.position.x, effectiveViewportWidth / 2f,
-				BoardGame.BOARD_WIDTH - effectiveViewportWidth / 2f);
-		BoardGame.camera.position.y = MathUtils.clamp(
-				BoardGame.camera.position.y, effectiveViewportHeight / 2f,
-				BoardGame.BOARD_HEIGHT - effectiveViewportHeight / 2f);
-		if (processor.getInventory())
-			inventory.handleInput();
+		BoardGame.camera.zoom = MathUtils.clamp(BoardGame.camera.zoom + processor.getZoom(), 0.5f, BoardGame.BOARD_HEIGHT / BoardGame.camera.viewportWidth);
+		BoardGame.camera.position.x = MathUtils.clamp(BoardGame.camera.position.x, effectiveViewportWidth / 2f, BoardGame.BOARD_WIDTH - effectiveViewportWidth / 2f);
+		BoardGame.camera.position.y = MathUtils.clamp(BoardGame.camera.position.y, effectiveViewportHeight / 2f, BoardGame.BOARD_HEIGHT - effectiveViewportHeight / 2f);
+		
+		if (processor.getInventory()) inventory.handleInput();
+		
 		if (isHeld(deltaTime)) {
 			Vector3 touchLoc = (getMousePositionWithinCamera());
-			if (piece == null)
-				piece = getTopEntityAtPosition(touchLoc);
+			if (piece == null) piece = getTopEntityAtPosition(touchLoc);
 
 			if (piece != null) {
-				piece.move(new Vector3(touchLoc.x - lastTouch.x, touchLoc.y
-						- lastTouch.y, GameState.getNextZ()));
-
+				piece.move(new Vector3(touchLoc.x - lastTouch.x, touchLoc.y - lastTouch.y, GameState.getNextZ()));
+				
+				float clampedX = MathUtils.clamp(piece.getLocation().x, 0, (BoardGame.BOARD_WIDTH - piece.getSize().x));
+				float clampedY = MathUtils.clamp(piece.getLocation().y , 0, (BoardGame.BOARD_HEIGHT - piece.getSize().y));
+				
+				piece.setLocation(clampedX, clampedY);
+				
+				// Only for the card game piece
 				if (piece instanceof Card) {
 					if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 						((Card) piece).flipCard();
 					}
 				}
+				
 			}
 
-		} else
-			piece = null;
+		} else piece = null;
 
 		lastTouch = getMousePositionWithinCamera();
 
@@ -101,17 +98,19 @@ public class LocalPlayState extends GameState {
 
 		if (processor.getInventory()) {
 			ShapeRenderer shapeRenderer = new ShapeRenderer();
+			
 			shapeRenderer.setAutoShapeType(true);
 			shapeRenderer.begin(ShapeType.Filled);
 			shapeRenderer.setColor(Color.BLACK);
-			shapeRenderer.rect(inventory.getLocation().x,
-					inventory.getLocation().y, inventory.getSize().x,
-					inventory.getSize().y);
+			shapeRenderer.rect(inventory.getLocation().x, inventory.getLocation().y, inventory.getSize().x, inventory.getSize().y);
 			shapeRenderer.end();
+			
 			SpriteBatch batch1 = new SpriteBatch(1);
+			
 			batch1.begin();
 			inventory.draw(batch1);
 			batch1.end();
+			
 		}
 
 	}

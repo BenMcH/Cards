@@ -16,10 +16,10 @@ import com.cards.framework.interfaces.Drawable;
 public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 
 	// public static ColorPath[] avalibleColors;
-	public static final TextureAtlas CARDS_SHEET = new TextureAtlas(
-			Gdx.files.internal("cards.pack"));
+	public static final TextureAtlas CARDS_SHEET = new TextureAtlas(Gdx.files.internal("cards.pack"));
 	private Vector3 location = new Vector3(0, 0, 0);
 	private Vector3 size = new Vector3();
+	private float rotation = (float) Math.PI / 2;
 
 	/**
 	 * Used to draw the game piece from within the class
@@ -79,6 +79,33 @@ public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 	 */
 	public void setLocation(Vector3 loc) {
 		this.location = loc;
+	}
+	
+	/**
+	 * Returns the rotation as a double
+	 * 
+	 * @return
+	 */
+	public float getRotation() {
+		return rotation;
+	}
+	
+	/**
+	 * Will set a rotation for the game piece
+	 * 
+	 * @param rotation
+	 */
+	public void setRotation(float rotation) {
+		this.rotation = rotation;
+	}
+	
+	/**
+	 * Will rotate the game piece by a specified amount
+	 * 
+	 * @param amount
+	 */
+	public void rotate(double amount) {
+		this.rotation += amount;
 	}
 
 	/**

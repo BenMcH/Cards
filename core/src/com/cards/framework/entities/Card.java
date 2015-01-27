@@ -3,6 +3,7 @@ package com.cards.framework.entities;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.scenes.scene2d.utils.SpriteDrawable;
 import com.cards.framework.BoardGame;
 
 /**
@@ -22,12 +23,11 @@ public class Card extends GamePiece {
 		this.value = value;
 		this.suit = suit;
 		front = true;
-		frontTexture = GamePiece.CARDS_SHEET.findRegion("card" + suit.getSuit()
-				+ getDisplayValue());
+		frontTexture = GamePiece.CARDS_SHEET.findRegion("card" + suit.getSuit() + getDisplayValue());
 		backTexture = GamePiece.CARDS_SHEET.findRegion("cardBack_red1");
 
 		setLocation(BoardGame.camera.unproject(new Vector3((BoardGame.camera.viewportWidth) / 2, (BoardGame.camera.viewportHeight) / 2, 0)));
-
+		
 		setSize(frontTexture.originalWidth, frontTexture.originalHeight);
 	}
 
@@ -95,14 +95,13 @@ public class Card extends GamePiece {
 
 	@Override
 	public void drawPiece(SpriteBatch batch) {
-		batch.draw(front ? frontTexture : backTexture, getLocation().x,
-				getLocation().y);
+		batch.draw(front ? frontTexture : backTexture, getLocation().x, getLocation().y);
 	}
 
 	@Override
 	public Vector3 getSize() {
 
-		return null;
+		return super.getSize();
 	}
 
 }

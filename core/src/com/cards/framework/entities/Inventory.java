@@ -53,15 +53,12 @@ public class Inventory extends GamePiece {
 		if (Gdx.input.isKeyJustPressed(Keys.BACKSPACE))
 			isInMenu = false;
 		if (state.isJustTouched())
-			if (input.x >= getLocation().x
-					&& input.x <= getLocation().x + getSize().x) {
-				if (input.y >= getLocation().y
-						&& input.y <= getLocation().y + getSize().y) {
+			if (input.x >= getLocation().x && input.x <= getLocation().x + getSize().x) {
+				if (input.y >= getLocation().y && input.y <= getLocation().y + getSize().y) {
 					// CardGame.camera.unproject(input);
 					int loc = (int) input.y / 20;
 					if (isInMenu) {
-						GamePiece piece = entities.get(scroll
-								+ (shownNum - loc - 1));
+						GamePiece piece = entities.get(scroll + (shownNum - loc - 1));
 						piece.centerPiece();
 						state.addEntity(piece);
 					} else {
