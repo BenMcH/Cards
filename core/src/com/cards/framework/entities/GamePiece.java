@@ -1,7 +1,6 @@
 package com.cards.framework.entities;
 
-import java.awt.Graphics;
-
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
 
@@ -17,7 +16,7 @@ public abstract class GamePiece {
 	 * 
 	 * @param g
 	 */
-	public abstract void drawPiece(Graphics g);
+	public abstract void drawPiece(SpriteBatch batch);
 
 	public Body getBody() {
 		return body;

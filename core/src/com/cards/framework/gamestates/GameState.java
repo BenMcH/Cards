@@ -4,6 +4,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.cards.framework.BoardGame;
 
 public abstract class GameState implements Screen {
 	private OrthographicCamera camera;
@@ -11,7 +12,10 @@ public abstract class GameState implements Screen {
 	
 	@Override
 	public void show() {
-		camera = new OrthographicCamera();
+		camera = new OrthographicCamera(1.5f, 1.5f);
+		camera.setToOrtho(false, 1.5f, 1.5f);
+		camera.position.set(camera.viewportWidth / 2f, camera.viewportHeight / 2f, 0);
+		BoardGame.batch.setProjectionMatrix(camera.combined);
 		world = new World(new Vector2(0,-9.81f), true);
 		init();
 	}
@@ -47,6 +51,14 @@ public abstract class GameState implements Screen {
 	
 	public World getWorld() {
 		return world;
+	}
+	
+	public static float pixelsToMeters(float pixels) {
+		return pixels / 800;
+	}
+	
+	public static float metersToPixels(float meters) {
+		return meters * 800;
 	}
 	
 	public void render(float deltaTime){

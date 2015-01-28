@@ -2,6 +2,8 @@ package com.cards.framework.entities;
 
 import java.awt.Graphics;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 /**
  * This class is for the chip game piece that will be used for games like poker
  * or checkers.
@@ -30,9 +32,8 @@ public class Chip extends GamePiece {
 		return value;
 	}
 
-
 	@Override
-	public void drawPiece(Graphics g) {
+	public void drawPiece(SpriteBatch batch) {
 	}
 
 }

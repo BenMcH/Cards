@@ -4,7 +4,9 @@ import java.awt.Graphics;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.BodyDef.BodyType;
 import com.badlogic.gdx.physics.box2d.FixtureDef;
@@ -25,6 +27,9 @@ public class Card extends GamePiece {
 	private boolean front;
 	private Sprite frontSprite;
 	private Sprite backSprite;
+	
+	private final float height = .18f;
+	private final float width = .14f;
 
 	public Card(int value, CardSuit suit) {
 		this.value = value;
@@ -34,15 +39,22 @@ public class Card extends GamePiece {
 		body.type = BodyType.DynamicBody;
 		
 		PolygonShape cardShape = new PolygonShape();
-		cardShape.setAsBox(.07f/2, .09f/2);
+		cardShape.setAsBox(width/2, height/2);
 		
 		FixtureDef def = new FixtureDef();
 		def.density = .25f;
 		def.shape = cardShape;
 		def.friction = .25f;
 		def.restitution = 0.1f;
+		
 		frontSprite = CARDS_SHEET.createSprite("card" + suit.getSuit() + getDisplayValue());
 		backSprite = CARDS_SHEET.createSprite("cardBack_red1");
+		
+		frontSprite.setSize(width, height);
+		backSprite.setSize(width, height);
+		
+		frontSprite.setOrigin(width/2, height/2);
+		backSprite.setOrigin(width/2, height/2);
 
 		setBody(GameState.world.createBody(body));
 		setFixture(getBody().createFixture(def));
@@ -114,7 +126,16 @@ public class Card extends GamePiece {
 	 * Documentation in the GamePiece Class
 	 */
 	@Override
-	public void drawPiece(Graphics g) {
+	public void drawPiece(SpriteBatch batch) {
+		frontSprite.setPosition(getBody().getPosition().x - (width / 2), getBody().getPosition().y - (height / 2));
+		backSprite.setPosition(getBody().getPosition().x - (width / 2), getBody().getPosition().y - (height / 2));
+		
+		frontSprite.setRotation(getBody().getAngle() * MathUtils.radiansToDegrees);
+		backSprite.setRotation(getBody().getAngle() * MathUtils.radiansToDegrees);
+		
+		if(front) frontSprite.draw(batch);
+		else backSprite.draw(batch);
+		
 	}
 
 }

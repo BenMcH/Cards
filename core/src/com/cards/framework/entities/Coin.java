@@ -3,6 +3,7 @@ package com.cards.framework.entities;
 import java.awt.Graphics;
 import java.util.Random;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.cards.framework.interfaces.Rollable;
 
 public class Coin extends GamePiece implements Rollable {
@@ -38,11 +39,8 @@ public class Coin extends GamePiece implements Rollable {
 		return coin;
 	}
 
-	/**
-	 * Documentation for this in the GamePiece class
-	 */
 	@Override
-	public void drawPiece(Graphics g) {
+	public void drawPiece(SpriteBatch batch) {
 	}
 
 }

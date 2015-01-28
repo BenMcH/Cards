@@ -3,6 +3,7 @@ package com.cards.framework.entities;
 import java.awt.Graphics;
 import java.util.Random;
 
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.cards.framework.interfaces.Rollable;
 
 /**
@@ -55,7 +56,7 @@ public class Dice extends GamePiece implements Rollable {
 	}
 
 	@Override
-	public void drawPiece(Graphics g) {
+	public void drawPiece(SpriteBatch batch) {
 	}
 
 }
