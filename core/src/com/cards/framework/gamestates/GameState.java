@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -29,7 +30,11 @@ public abstract class GameState implements Drawable {
 	private boolean sTouched;
 	private World world;
 	private Box2DDebugRenderer debugRenderer;
-	
+	public static float MIN_ZOOM = .5f;
+	public static float MAX_ZOOM = 1.96f;
+	public static float ROTATE_SPEED = .7f;
+	public static OrthographicCamera camera;
+
 	/**
 	 * Creates a GameState object that saves its GameStateManager
 	 * 
@@ -40,7 +45,6 @@ public abstract class GameState implements Drawable {
 		entities = new ArrayList<GamePiece>();
 		world = new World(gravity, sleep);
 		debugRenderer = new Box2DDebugRenderer();
-		init();
 	}
 
 	/**
@@ -137,24 +141,26 @@ public abstract class GameState implements Drawable {
 		touched = Gdx.input.isTouched();
 		return touched;
 	}
-	
+
 	/**
-	 * This is the private isJustTouched method specifically for the isHeld Method
+	 * This is the private isJustTouched method specifically for the isHeld
+	 * Method
+	 * 
 	 * @return
 	 */
-	private boolean isJustTouchedH(){
+	private boolean isJustTouchedH() {
 		if (Gdx.input.isTouched() && sTouched)
 			return false;
 		sTouched = Gdx.input.isTouched();
 		return sTouched;
-		
+
 	}
-	
+
 	public boolean isHeld(float deltaTime) {
-		if(isJustTouchedH()){
+		if (isJustTouchedH()) {
 			heldPiece = (getTopEntityAtPosition(getMousePositionWithinCamera()));
 		}
-		if(heldPiece == null)
+		if (heldPiece == null)
 			return false;
 		holding = Gdx.input.isTouched();
 		if (holding) {
@@ -171,11 +177,10 @@ public abstract class GameState implements Drawable {
 	 * @return
 	 */
 	public Vector3 getMousePositionWithinCamera() {
-		return BoardGame.camera.unproject(new Vector3(Gdx.input.getX(),
-				Gdx.input.getY(), 0));
+		return GameState.camera.unproject(new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0));
 	}
-	
-	public Vector3 getMousePositionOnScreen(){
+
+	public Vector3 getMousePositionOnScreen() {
 		return new Vector3(Gdx.input.getX(), BoardGame.WINDOW_HEIGHT - Gdx.input.getY(), 0);
 	}
 
@@ -186,5 +191,6 @@ public abstract class GameState implements Drawable {
 	public Box2DDebugRenderer getDebugRenderer() {
 		return debugRenderer;
 	}
+	
 
 }

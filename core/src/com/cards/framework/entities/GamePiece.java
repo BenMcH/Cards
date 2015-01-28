@@ -3,10 +3,13 @@ package com.cards.framework.entities;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-import com.cards.framework.BoardGame;
+import com.badlogic.gdx.physics.box2d.Body;
+import com.badlogic.gdx.physics.box2d.Fixture;
 import com.cards.framework.gamestates.GameState;
 import com.cards.framework.interfaces.Drawable;
 
@@ -21,7 +24,9 @@ public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 	public static final TextureAtlas CARDS_SHEET = new TextureAtlas(Gdx.files.internal("cards.pack"));
 	private Vector3 location = new Vector3(0, 0, 0);
 	private Vector3 size = new Vector3();
-	private int rotation = 0;
+	// private int rotation = 0;
+	private Body body;
+	private Fixture fixture;
 
 	/**
 	 * Used to draw the game piece from within the class
@@ -71,7 +76,9 @@ public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 	 * @param y
 	 */
 	public void setLocation(float x, float y) {
-		location.set(x, y, GameState.getNextZ());
+		if (getBody() != null)
+			getBody().setTransform(x, y, getBody().getAngle());
+		// location.set(x, y, GameState.getNextZ());
 	}
 
 	/**
@@ -80,35 +87,35 @@ public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 	 * @param loc
 	 */
 	public void setLocation(Vector3 loc) {
-		this.location = loc;
+		body.setTransform(new Vector2(loc.x, loc.y), getBody().getAngle());
+		// this.location = loc;
 	}
-	
+
 	/**
-	 * Returns the rotation as a double
+	 * Returns the rotation as a float
 	 * 
 	 * @return
 	 */
-	public int getRotation() {
-		return rotation;
+	public float getRotation() {
+		return getBody().getAngle();
 	}
-	
+
 	/**
 	 * Will set a rotation for the game piece
 	 * 
 	 * @param rotation
 	 */
-	public void setRotation(int rotation) {
-		this.rotation = rotation;
+	private void setRotation(float rotation) {
+		getBody().setTransform(getBody().getPosition(), (rotation * MathUtils.degreesToRadians));
 	}
-	
+
 	/**
 	 * Will rotate the game piece by a specified amount
 	 * 
 	 * @param amount
 	 */
-	public void rotate(int amount) {
-		this.rotation += amount;
-		this.rotation %= 360;
+	public void rotate(float amount) {
+		setRotation(getBody().getAngle() + (getBody().getAngle() * MathUtils.degreesToRadians));
 	}
 
 	/**
@@ -116,10 +123,8 @@ public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 	 * 
 	 * @param amount
 	 */
-	public void move(Vector3 amount) {
-		location.x += amount.x;
-		location.y += amount.y;
-		location.z = amount.z;
+	public void move(Vector2 amount) {
+		getBody().setTransform(new Vector2(getBody().getPosition().x, getBody().getPosition().y + amount.y), getBody().getAngle());
 	}
 
 	/**
@@ -129,8 +134,8 @@ public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 	 * @param dy
 	 * @param dz
 	 */
-	public void move(float dx, float dy, float dz) {
-		move(new Vector3(dx, dy, dz));
+	public void move(float dx, float dy) {
+		move(new Vector2(dx, dy));
 	}
 
 	/**
@@ -142,9 +147,9 @@ public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 	public boolean containsPoint(Vector3 point) {
 		Rectangle r = new Rectangle();
 		Polygon shape = new Polygon();
-		
-		if (point.x >= this.location.x && point.x <= location.x + size.x)
-			if (point.y >= this.location.y && point.y <= location.y + size.y)
+
+		if (point.x >= this.location.x && point.x <= location.x + size.x * 2)
+			if (point.y >= this.location.y && point.y <= location.y + size.y * 2)
 				return true;
 		return false;
 	}
@@ -160,9 +165,23 @@ public abstract class GamePiece implements Comparable<GamePiece>, Drawable {
 	 * This method centers the piece within the current View Port
 	 */
 	public void centerPiece() {
-		setLocation(BoardGame.camera.unproject(new Vector3(
-				(BoardGame.camera.viewportWidth) / 2,
-				(BoardGame.camera.viewportHeight) / 2, 0)));
+		setLocation(GameState.camera.unproject(new Vector3((GameState.camera.viewportWidth) / 2, (GameState.camera.viewportHeight) / 2, 0)));
 	}
-	
+
+	public Body getBody() {
+		return body;
+	}
+
+	public Fixture getFixture() {
+		return fixture;
+	}
+
+	public void setBody(Body body) {
+		this.body = body;
+	}
+
+	public void setFixture(Fixture fixture) {
+		this.fixture = fixture;
+	}
+
 }

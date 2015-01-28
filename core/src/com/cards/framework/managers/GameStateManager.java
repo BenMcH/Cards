@@ -22,6 +22,7 @@ public class GameStateManager {
 	 */
 	public GameStateManager() {
 		gameState = new LocalPlayState(this);
+		gameState.init();
 	}
 
 	/**
@@ -39,6 +40,7 @@ public class GameStateManager {
 		if (state == PLAY) {
 			gameState = new LocalPlayState(this);
 		}
+		gameState.init();
 	}
 
 	/**

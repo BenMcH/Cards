@@ -2,6 +2,7 @@ package com.cards.framework.gamestates;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -37,25 +38,26 @@ public class LocalPlayState extends GameState {
 	public void init() {
 		Gdx.input.setInputProcessor((processor = new GameInputProcessor(this)));
 		addEntity(new Card(1, CardSuit.SPADES));
-		addEntity(new Card(2, CardSuit.HEARTS));
-		getEntities().get(1).move(new Vector3(50, 50, GameState.getNextZ()));
+	//	addEntity(new Card(2, CardSuit.HEARTS));
+	//	getEntities().get(1).move(new Vector3(2, 2, GameState.getNextZ()));
 		
-		inventory = new Inventory(this);
-		processor.setInventoryObj(inventory);
+		//inventory = new Inventory(this);
+		//processor.setInventoryObj(inventory);
+		
 	}
 
 	@Override
 	public void handleInput(float deltaTime) {
-		BoardGame.camera.translate(processor.getTranslateX(), processor.getTranslateY(), 0);
-		BoardGame.camera.rotate(processor.getRotation(), 0, 0, 1);
-		BoardGame.camera.rotate(processor.getRotation(), 0, 0, 1);
+		GameState.camera.translate(processor.getTranslateX(), processor.getTranslateY(), 0);
+		GameState.camera.rotate(processor.getRotation(), 0, 0, 1);
+		GameState.camera.rotate(processor.getRotation(), 0, 0, 1);
 
-		float effectiveViewportWidth = BoardGame.camera.viewportWidth * BoardGame.camera.zoom;
-		float effectiveViewportHeight = BoardGame.camera.viewportHeight * BoardGame.camera.zoom;
+		float effectiveViewportWidth = GameState.camera.viewportWidth * GameState.camera.zoom;
+		float effectiveViewportHeight = GameState.camera.viewportHeight * GameState.camera.zoom;
 
-		BoardGame.camera.zoom = MathUtils.clamp(BoardGame.camera.zoom + processor.getZoom(), 0.5f, BoardGame.BOARD_HEIGHT / BoardGame.camera.viewportWidth);
-		BoardGame.camera.position.x = MathUtils.clamp(BoardGame.camera.position.x, effectiveViewportWidth / 2f, BoardGame.BOARD_WIDTH - effectiveViewportWidth / 2f);
-		BoardGame.camera.position.y = MathUtils.clamp(BoardGame.camera.position.y, effectiveViewportHeight / 2f, BoardGame.BOARD_HEIGHT - effectiveViewportHeight / 2f);
+		GameState.camera.zoom = MathUtils.clamp(GameState.camera.zoom + processor.getZoom(), 0.5f, BoardGame.BOARD_HEIGHT / GameState.camera.viewportWidth);
+		GameState.camera.position.x = MathUtils.clamp(GameState.camera.position.x, effectiveViewportWidth / 2f, BoardGame.BOARD_WIDTH - effectiveViewportWidth / 2f);
+		GameState.camera.position.y = MathUtils.clamp(GameState.camera.position.y, effectiveViewportHeight / 2f, BoardGame.BOARD_HEIGHT - effectiveViewportHeight / 2f);
 		
 		if (processor.getInventory()) inventory.handleInput();
 		
@@ -64,7 +66,7 @@ public class LocalPlayState extends GameState {
 			if (piece == null) piece = getTopEntityAtPosition(touchLoc);
 
 			if (piece != null) {
-				piece.move(new Vector3(touchLoc.x - lastTouch.x, touchLoc.y - lastTouch.y, GameState.getNextZ()));
+				piece.move(new Vector2(touchLoc.x - lastTouch.x, touchLoc.y - lastTouch.y));
 				
 				float clampedX = MathUtils.clamp(piece.getLocation().x, 0, (BoardGame.BOARD_WIDTH - piece.getSize().x));
 				float clampedY = MathUtils.clamp(piece.getLocation().y , 0, (BoardGame.BOARD_HEIGHT - piece.getSize().y));
@@ -77,19 +79,25 @@ public class LocalPlayState extends GameState {
 						((Card) piece).flipCard();
 					}
 				}
-				piece.rotate(processor.getScroll());
+				int rotate = processor.getScroll();
+				System.out.println(piece.getRotation() * MathUtils.radiansToDegrees);
+				piece.rotate(rotate);
 				
 			}
 
 		} else piece = null;
 
 		lastTouch = getMousePositionWithinCamera();
-
+		if(Gdx.input.isKeyJustPressed(Keys.J))
+			for(GamePiece p : getEntities()){
+				p.getBody().applyForceToCenter(10, 10, true);
+			}
 	}
 
 	@Override
 	public void update(float deltaTime) {
 		handleInput(deltaTime);
+		getWorld().step(deltaTime, 3, 8);
 	}
 
 	@Override
@@ -114,6 +122,7 @@ public class LocalPlayState extends GameState {
 			batch1.end();
 			
 		}
+		getDebugRenderer().render(getWorld(), GameState.camera.combined);
 
 	}
 

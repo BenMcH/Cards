@@ -44,10 +44,10 @@ public class GameInputProcessor implements InputProcessor {
 				translateY = 30;
 				break;
 			case Keys.Q:
-				rotation = -(BoardGame.ROTATE_SPEED);
+				rotation = -(GameState.ROTATE_SPEED);
 				break;
 			case Keys.E:
-				rotation = BoardGame.ROTATE_SPEED;
+				rotation = GameState.ROTATE_SPEED;
 				break;
 			case Keys.TAB:
 				state.addEntity(Deck.getRandomCard());
@@ -123,11 +123,12 @@ public class GameInputProcessor implements InputProcessor {
 	@Override
 	public boolean scrolled(int amount) {
 		scroll = amount;
-		if (inventory)
+		System.out.println(scroll);
+		if (inventory){
 			if (inventoryObj != null) {
 				inventoryObj.scroll(amount);
 			}
-			
+		}
 		return true;
 	}
 
@@ -161,7 +162,7 @@ public class GameInputProcessor implements InputProcessor {
 
 	public int getScroll() {
 		int scroll = this.scroll;
-		this.scroll = 0;
+	//	this.scroll = 0;
 		return scroll * 15;
 	}
 
