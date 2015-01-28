@@ -17,7 +17,7 @@ public class BoardGame extends ApplicationAdapter {
 	public static int WINDOW_HEIGHT;
 	public static final float BOARD_WIDTH = 1.5f;
 	public static final float BOARD_HEIGHT = 1.5f;
-	
+	public static float contrastRatio = 16f/9f;
 
 	public static SpriteBatch batch;
 	public static Sprite boardSprite;
