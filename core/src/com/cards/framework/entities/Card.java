@@ -1,7 +1,5 @@
 package com.cards.framework.entities;
 
-import java.awt.Graphics;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -37,11 +35,12 @@ public class Card extends GamePiece {
 		front = true;
 		BodyDef body = new BodyDef();
 		body.type = BodyType.DynamicBody;
-		
+		body.position.set(.75f,.75f);
 		PolygonShape cardShape = new PolygonShape();
 		cardShape.setAsBox(width/2, height/2);
 		
 		FixtureDef def = new FixtureDef();
+		
 		def.density = .25f;
 		def.shape = cardShape;
 		def.friction = .25f;
@@ -49,7 +48,6 @@ public class Card extends GamePiece {
 		
 		frontSprite = CARDS_SHEET.createSprite("card" + suit.getSuit() + getDisplayValue());
 		backSprite = CARDS_SHEET.createSprite("cardBack_red1");
-		
 		frontSprite.setSize(width, height);
 		backSprite.setSize(width, height);
 		

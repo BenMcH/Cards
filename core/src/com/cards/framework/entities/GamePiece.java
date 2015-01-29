@@ -1,13 +1,17 @@
 package com.cards.framework.entities;
 
+import java.util.Iterator;
+
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Fixture;
+import com.badlogic.gdx.utils.Array;
 
 public abstract class GamePiece {
 	private Body body;
 	private Fixture fixture;
-	
+
 	public GamePiece() {
 	}
 
@@ -32,6 +36,16 @@ public abstract class GamePiece {
 
 	public void setFixture(Fixture fixture) {
 		this.fixture = fixture;
+	}
+
+	public boolean containsPoint(Vector2 point) {
+		Array<Fixture> fixtures = getBody().getFixtureList();
+		Iterator<Fixture> iterator = fixtures.iterator();
+		while (iterator.hasNext()) {
+			if (iterator.next().testPoint(point))
+				return true;
+		}
+		return false;
 	}
 
 }

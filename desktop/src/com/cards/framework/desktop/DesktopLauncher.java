@@ -18,7 +18,7 @@ public class DesktopLauncher {
 		cfg.y = -1;
 		
 		cfg.foregroundFPS = 60;
-		cfg.resizable = false;
+		//cfg.resizable = false;
 		cfg.vSyncEnabled = true;
 		
 		new LwjglApplication(new BoardGame(), cfg);

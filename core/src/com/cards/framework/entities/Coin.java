@@ -1,6 +1,5 @@
 package com.cards.framework.entities;
 
-import java.awt.Graphics;
 import java.util.Random;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
