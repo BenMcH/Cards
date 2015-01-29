@@ -79,7 +79,7 @@ public class Card extends GamePiece {
 	/**
 	 * Will flip the current card to its other side
 	 */
-	public void filpCard() {
+	public void flipCard() {
 		front = !front;
 	}
 
@@ -135,5 +135,6 @@ public class Card extends GamePiece {
 		else backSprite.draw(batch);
 		
 	}
+
 
 }

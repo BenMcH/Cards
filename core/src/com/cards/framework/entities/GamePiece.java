@@ -48,4 +48,17 @@ public abstract class GamePiece {
 		return false;
 	}
 
+	public void move(Vector2 amount) {
+		body.setTransform(body.getPosition().x + amount.x, body.getPosition().y + amount.y, body.getAngle());
+	}
+
+	public void setLocation(Vector2 loc) {
+		body.setTransform(loc, body.getAngle());
+	}
+
+	public Vector2 getLocation() {
+
+		return body.getPosition();
+	}
+
 }

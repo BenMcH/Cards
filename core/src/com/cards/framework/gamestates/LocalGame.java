@@ -1,9 +1,11 @@
 package com.cards.framework.gamestates;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.cards.framework.BoardGame;
 import com.cards.framework.config.KeyBindings;
 import com.cards.framework.entities.Card;
@@ -17,6 +19,8 @@ public class LocalGame extends GameState {
 	private Sprite boardSprite;
 	private SpriteBatch batch;
 	private Card card;
+	private GamePiece piece;
+	private Vector2 lastTouch;
 
 	@Override
 	public void init() {
@@ -53,6 +57,31 @@ public class LocalGame extends GameState {
 			for (GamePiece piece : getEntities()) {
 				piece.getBody().applyForce(.5f, .5f, 0, 0, true);
 			}
+		if (isHeld(deltaTime)) {
+			Vector2 touchLoc = (getMousePositionWithinCamera());
+			//if (piece == null) piece = getTopEntityAtPosition(touchLoc);
+			if (piece != null) {
+				piece.move(new Vector2(touchLoc.x - lastTouch.x, touchLoc.y - lastTouch.y));
+				
+			//	float clampedX = MathUtils.clamp(piece.getLocation().x, 0, (LocalGame.BOARD_WIDTH - piece.getSize().x));
+				//float clampedY = MathUtils.clamp(piece.getLocation().y , 0, (LocalGame.BOARD_HEIGHT - piece.getSize().y));
+				
+				//piece.setLocation(clampedX, clampedY);
+				
+				// Only for the card game piece
+				if (piece instanceof Card) {
+					if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+						((Card) piece).flipCard();
+					}
+				}
+			//	piece.rotate(processor.getScroll());
+				
+			}
+
+		} else piece = null;
+
+		lastTouch = getMousePositionWithinCamera();
+
 	}
 
 	@Override
