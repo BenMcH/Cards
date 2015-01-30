@@ -3,6 +3,7 @@ package com.cards.framework.gamestates;
 import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -14,7 +15,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.cards.framework.BoardGame;
 import com.cards.framework.entities.GamePiece;
 
-public abstract class GameState implements Screen {
+public abstract class GameState extends InputAdapter implements Screen {
 	private OrthographicCamera camera;
 	public static World world;
 	private Box2DDebugRenderer debugRenderer;
@@ -82,6 +83,7 @@ public abstract class GameState implements Screen {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		getWorld().step(deltaTime, 6, 2);
+		getCamera().update();
 		handleInput(deltaTime);
 		update(deltaTime);
 		renderPiece(deltaTime);

@@ -36,6 +36,7 @@ public class Card extends GamePiece {
 		BodyDef body = new BodyDef();
 		body.type = BodyType.DynamicBody;
 		body.position.set(.75f,.75f);
+		body.fixedRotation = true;
 		PolygonShape cardShape = new PolygonShape();
 		cardShape.setAsBox(width/2, height/2);
 		
